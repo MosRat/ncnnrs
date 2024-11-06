@@ -70,7 +70,9 @@ impl Net {
         }
     }
     pub fn load_model_memory(&mut self, model_data: &[u8]) -> anyhow::Result<()> {
-        let result = unsafe { ncnn_net_load_model_memory(self.ptr, model_data.as_ptr()) };
+        let c_str =
+            CString::new(model_data).map_err(|e| anyhow::anyhow!("Invalid model data: {}", e))?;
+        let result = unsafe { ncnn_net_load_model_memory(self.ptr, c_str.as_bytes().as_ptr()) };
         if result != 0 {
             anyhow::bail!("Error loading model from memory");
         } else {
