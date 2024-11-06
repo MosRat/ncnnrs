@@ -74,7 +74,7 @@ impl Net {
         if result == 0 {
             anyhow::bail!("Error loading model from memory ret={:?}",result);
         } else {
-            anyhow::bail!("Successfully loading model from memory , {:?} bytes total",result);
+            eprintln!("Successfully loading model from memory , {:?} bytes total",result);
             Ok(())
         }
     }
